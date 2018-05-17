@@ -1,6 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { data } from '../data';
 import { barData } from '../barData';
 import { DATACANVAS } from '../DATACANVAS'
 import { trigger, style, transition, animate, keyframes, state, query, stagger } from '@angular/animations';
@@ -49,6 +48,11 @@ export class HomeComponent implements OnInit {
   public pieChartType: string;
   public projects: any[];
 
+  constructor() { }
+
+  ngOnInit() {
+    this.projects = ['AWH', 'RMI'];
+  }
 
   fillData(selectedItem) {
     this.bar = false;
@@ -62,25 +66,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
   showPie(selecteddata) {
-    /* this.width = 600;
-    this.height = 400;
-    this.type = 'pie2d';
-    this.dataFormat = 'json';
-    this.dataSource = selecteddata;
-    this.enlarge('small'); */
+
     this.pieChartLabels = ['Processed Business Functions', 'Processed Files', 'Processed Functions'];
     this.pieChartData = selecteddata;
     this.pieChartType = 'pie';
 
-  }
-
-
-  constructor() { }
-
-  ngOnInit() {
-    this.projects = ['AWH', 'RMI'];
   }
 
   public chartClicked(e: any): void {
@@ -92,8 +83,6 @@ export class HomeComponent implements OnInit {
         this.chartData = c._chart.config.data;
         this.idx = c._index;
       }
-
-
       this.lable = this.chartData.labels[this.idx];
       this.value = this.chartData.datasets;
       for (let c of this.value) {
@@ -108,9 +97,9 @@ export class HomeComponent implements OnInit {
     this.typebar = 'column2d';
     this.dataFormat = 'json';
     this.dataSourcebar = selectedBarData;
-    
+
   }
-  actualValue = '';
+  
   enlarge(state) {
     state = (state === 'small' ? 'large' : 'small');
 
