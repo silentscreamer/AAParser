@@ -3,7 +3,7 @@ left: 50%;
 top: 5%;
 transform: translate(-50%,-50%)">
   <div>
-    Shivi
+ 
     <select (change)="fillData(x)" [(ngModel)]="x">
       <option *ngFor="let x of projects" [value]="x" [selected]="x">{{x}}</option>
     </select>
