@@ -1,0 +1,31 @@
+<div class="row" style="position: absolute; left: 1050px; top: 50px;">
+  <div>
+    <select (change)="fillData(x)" [(ngModel)]="x">
+      <option *ngFor="let x of projects" [value]="x" [selected]="x">{{x}}</option>
+    </select>
+  </div>
+</div>
+
+<div style="display: block" *ngIf="selected!=null" style="position: absolute; left: 650px; top: 100px; height:20vh; width:40vw">
+  <canvas @enlarge baseChart 
+          responsive="false"
+          [data]="pieChartData"
+          [labels]="pieChartLabels"
+          [chartType]="pieChartType"
+          (chartClick)="chartClicked($event)"
+          ></canvas>
+</div>
+
+<canvas id="myChart" width="700" height="400"></canvas>
+
+<!-- <div *ngIf="selected!=null" align="center">
+
+  <fusioncharts [width]="width" [height]="height" [type]="type" [dataFormat]="dataFormat"
+   [dataSource]="dataSource" [events]="events" @enlarge></fusioncharts>
+
+</div> -->
+<div align="center" *ngIf="bar==true">
+  <fusioncharts [width]="width" [height]="height" [type]="typebar" [dataFormat]="dataFormat" 
+  [dataSource]="dataSourcebar" @enlarge>
+  </fusioncharts>
+</div>
