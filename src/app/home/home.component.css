@@ -1,0 +1,13 @@
+.app-button{
+    background-color: #01AAAD;
+    width: 150px;
+    margin:0 20px;
+    display:inline-block;
+    line-height: 60px;
+}
+.row{
+  text-align:center;
+  /*the same margin which is every button have, it is for small screen, and if you have many buttons.*/
+  margin-left:-20px;
+  margin-right:-20px;
+}
