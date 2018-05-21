@@ -8,16 +8,15 @@ import { BarGraphComponent } from './bar-graph/bar-graph.component';
 import { AppRoutesModule } from './app.routes';
 import { HomeComponent } from './home/home.component';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
-import { FusionChartsModule, FusionChartsComponent } from 'angular4-fusioncharts';
-import * as FusionCharts from 'fusioncharts';
-import * as Charts from 'fusioncharts/fusioncharts.charts';
-import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.zune';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { UploadTemplateComponent } from './upload-template/upload-template.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { DownloadSampleComponent } from './download-sample/download-sample.component'; 
+import {FileService} from '../sevices/FileServices';
+import { FileDropDirective,FileUploader ,FileSelectDirective} from 'ng2-file-upload';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +26,8 @@ import { DownloadSampleComponent } from './download-sample/download-sample.compo
     NavBarComponent,
     UploadTemplateComponent,
     StatisticsComponent,
-    DownloadSampleComponent
+    DownloadSampleComponent,
+    FileDropDirective, FileSelectDirective 
   ],
   imports: [
     BrowserModule,
@@ -37,10 +37,10 @@ import { DownloadSampleComponent } from './download-sample/download-sample.compo
     FormsModule,
     BrowserAnimationsModule,
     ChartsModule,
-    FusionChartsModule.forRoot(FusionCharts,Charts)
-
+  
   ],
-  providers: [AppRoutesModule,SelectDropDownModule,FusionChartsModule],
+  
+  providers: [AppRoutesModule,SelectDropDownModule,FileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
