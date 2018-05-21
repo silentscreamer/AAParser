@@ -1,38 +1,16 @@
-<div class="row" align="center" style=" position: absolute;
-left: 50%;
-top: 5%;
-transform: translate(-50%,-50%)">
-  <div>
- 
-    <select (change)="fillData(x)" [(ngModel)]="x">
-      <option *ngFor="let x of projects" [value]="x" [selected]="x">{{x}}</option>
-    </select>
+<div class="row">
+
+<div align="left"><app-nav-bar></app-nav-bar></div>
+<div align="center">
+
+  <div class="row">
+    <input type="submit" class="btn btn-success" id="btnSearch" routerLink = "/uploadTemplate"
+    value="Upload Files">
+    <input type="submit" class="btn btn-success" id="btnClearSearch" routerLink = "/statictics"
+    value="View Statistics">
   </div>
+
+
 </div>
-
-<div *ngIf="selected!=null" align="center" style=" position: absolute;
-left: 50%;
-top: 30%;
-transform: translate(-50%,-50%); height:40vh; width:60vw">
-  <div style="position: relative">
-    <canvas baseChart responsive="false" color="['Red','Blue','Green']" legend="true" 
-    [data]="pieChartData" [labels]="pieChartLabels"[chartType]="pieChartType" 
-    (chartClick)="chartClicked($event)"></canvas>
-  </div>
-</div>
-
-<canvas id="myChart" width="700" height="400"></canvas>
-
-<!-- <div *ngIf="selected!=null" align="center">
-
-  <fusioncharts [width]="width" [height]="height" [type]="type" [dataFormat]="dataFormat"
-   [dataSource]="dataSource" [events]="events" @enlarge></fusioncharts>
-
-</div> -->
-<div align="center" *ngIf="bar==true">
-  <!-- <fusioncharts [width]="width" [height]="height" [type]="typebar" [dataFormat]="dataFormat" 
-  [dataSource]="dataSourcebar" @enlarge>
-  </fusioncharts> -->
-
 
 </div>

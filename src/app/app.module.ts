@@ -13,13 +13,21 @@ import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
 import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.zune';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { UploadTemplateComponent } from './upload-template/upload-template.component';
+import { StatisticsComponent } from './statistics/statistics.component';
+import { DownloadSampleComponent } from './download-sample/download-sample.component'; 
 @NgModule({
   declarations: [
     AppComponent,
     PieChartComponent,
     BarGraphComponent,
-    HomeComponent
+    HomeComponent,
+    NavBarComponent,
+    UploadTemplateComponent,
+    StatisticsComponent,
+    DownloadSampleComponent
   ],
   imports: [
     BrowserModule,

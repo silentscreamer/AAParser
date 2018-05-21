@@ -54,56 +54,6 @@ export class HomeComponent implements OnInit {
     this.projects = ['AWH', 'RMI'];
   }
 
-  fillData(selectedItem) {
-    this.bar = false;
-    this.selected = null;
-    for (let DATA of DATACANVAS) {
-      if (selectedItem == DATA.label) {
-        this.selected = DATA.data;
-        this.showPie(this.selected);
-        break;
-      }
-    }
-  }
-
-  showPie(selecteddata) {
-
-    this.pieChartLabels = ['Processed Business Functions', 'Processed Files', 'Processed Functions'];
-    this.pieChartData = selecteddata;
-    this.pieChartType = 'pie';
-
-  }
-
-  public chartClicked(e: any): void {
-    this.enlarge('small');
-    this.activePoints = e;
-    if (this.activePoints) {
-      this.chartactive = this.activePoints.active;
-      for (let c of this.chartactive) {
-        this.chartData = c._chart.config.data;
-        this.idx = c._index;
-      }
-      this.lable = this.chartData.labels[this.idx];
-      this.value = this.chartData.datasets;
-      for (let c of this.value) {
-        this.value = c.data[this.idx];
-      }
-      alert(this.lable + " : " + this.value);
-    }
-  }
-  showBar(selectedBarData) {
-    this.width = 600;
-    this.height = 400;
-    this.typebar = 'column2d';
-    this.dataFormat = 'json';
-    this.dataSourcebar = selectedBarData;
-
-  }
-  
-  enlarge(state) {
-    state = (state === 'small' ? 'large' : 'small');
-
-  }
 
 
 }
