@@ -72,15 +72,15 @@
             </div>
             <div align="center"> or</div>
             <br>
-            <div *ngIf="files.length==0">
+            <div *ngIf="objectList">
 
                 Select Object List
                 <br>
                 <div >
-                    <input type="file" (change)="selectFile($event)"[disabled]="myform.invalid || !enable">
+                    <input type="file" (change)="selectFile($event)"[disabled]="myform.invalid || !enable ">
                 </div>
             </div>
-            <div *ngIf="files.length!=0">
+            <div *ngIf="programList">
                 Select Program List
                 <input type="file" (change)="selectFile($event)"[disabled]="files.length>=2">
             </div>
