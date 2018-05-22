@@ -4,7 +4,7 @@ import { barData } from '../barData';
 import { DATACANVAS } from '../DATACANVAS'
 import { trigger, style, transition, animate, keyframes, state, query, stagger } from '@angular/animations';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
-import * as Chart from 'chart.js'
+import * as Chart from 'chart.js';
 
 @Component({
   selector: 'app-statistics',
