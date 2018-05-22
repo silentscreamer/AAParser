@@ -1,6 +1,7 @@
 import { Component, OnInit, Directive, ElementRef, ViewChild } from '@angular/core';
 import { NgClass, NgStyle } from '@angular/common';
 import { FileUploader, Headers } from '../../../node_modules/ng2-file-upload';
+import {HttpClient, HttpHeaders, HttpEvent,HttpEventType,HttpRequest ,HttpResponse} from '@angular/common/http';
 import {
   ReactiveFormsModule,
   FormsModule,
@@ -9,7 +10,7 @@ import {
   Validators,
   FormBuilder
 } from '@angular/forms';
-const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
+const URL = 'http://localhost:8080/processAppArea';
 
 
 @Component({
@@ -20,15 +21,20 @@ const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
 
 })
 export class UploadTemplateComponent {
+  fileItem;
   @ViewChild('text') myId: ElementRef;
   enable: boolean = false;
+  files: Array<FileList> = [];
   myform;
   min: boolean;
   max: boolean;
+  selectedFiles: FileList
+  currentFileUpload: File
+  progress: { percentage: number } = { percentage: 0 }
   inputData;
   require: boolean;
   user: any = { AppIdd: "" }
-  constructor() {
+  constructor(private http: HttpClient) {
     this.myform = new FormGroup({
       AppId: new FormControl('', [
         Validators.required
@@ -36,12 +42,13 @@ export class UploadTemplateComponent {
       ])
 
     });
-
+  
   }
 
   public uploader: FileUploader = new FileUploader({
-    url: URL, allowedFileType: ["xls", "xlsx"], headers: <Headers[]>[
-      { name: 'Content-Type', value: 'multipart/form-data' }]
+    url: URL, allowedFileType: [],disableMultipart :false ,headers: <Headers[]>[
+      { name: 'Content-Type', value: 'multipart/form-data' }
+    ]  
   });
 
   public hasBaseDropZoneOver: boolean = false;
@@ -51,10 +58,17 @@ export class UploadTemplateComponent {
   public fileOverBase(e: any): void {
 
     this.hasBaseDropZoneOver = e;
+    if(this.uploader.queue.length<2){
+      this.uploader.setOptions({allowedFileType:["xls","xlsx"]});
+    }
   }
 
   public fileOverAnother(e: any): void {
     this.hasAnotherDropZoneOver = e;
+    if(this.uploader.queue.length==2){
+      this.uploader.setOptions({allowedFileType:[]});
+    }
+    
   }
 
   public validateId(user) {
@@ -64,6 +78,7 @@ export class UploadTemplateComponent {
     if (user) {
       if (user.AppIdd.length == 6) {
         this.enable = true;
+        this.uploader.setOptions({allowedFileType:["xls","xlsx"]});
         console.log(user);
       } else {
         if (user.AppIdd.length == 0) {
@@ -84,5 +99,50 @@ export class UploadTemplateComponent {
   setData(data: string) {
     this.inputData = data;
   }
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+    this.files.push(this.selectedFiles);
+  }
+ 
+  upload() {
+    this.progress.percentage = 0;
+ 
+    
+    this.pushFileToStorage(this.files).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.progress.percentage = Math.round(100 * event.loaded / event.total);
+      } else if (event instanceof HttpResponse) {
+        console.log('File is completely uploaded!');
+      }
+    })
+ 
+    this.selectedFiles = undefined
+  }
+  pushFileToStorage(file:Array<FileList>){
+    let formdata: FormData = new FormData();
+    formdata.append('appAreaId',this.user.AppIdd);
+    formdata.append('projectId','1');
 
+    for(let f of file){
+      this.currentFileUpload = f.item(0);
+      formdata.append('files', this.currentFileUpload);
+    }
+ 
+    const req = new HttpRequest('POST', URL, formdata, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+ 
+    return this.http.request(req);
+  }
+  clean(file){
+
+    const index: number = this.files.indexOf(file);
+    if(this.files.length==1){
+      this.files=[];
+    }else{
+      this.files= this.files.slice(index,1);
+    }
+   
+  }
 } 

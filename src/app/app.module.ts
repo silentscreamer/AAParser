@@ -16,6 +16,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { DownloadSampleComponent } from './download-sample/download-sample.component';
 import { FileService } from '../sevices/FileServices';
 import { FileDropDirective, FileUploader, FileSelectDirective } from 'ng2-file-upload';
+import {HttpClientModule} from '@angular/common/http';
 import {
   FormGroup,
   FormControl,
@@ -40,6 +41,7 @@ import {
     AppRoutesModule,
     SelectDropDownModule,
     CommonModule,
+    HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
     ChartsModule,

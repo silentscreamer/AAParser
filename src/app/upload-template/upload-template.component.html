@@ -53,55 +53,56 @@
     <div class="row">
 
         <div class="col-md-3">
-            <div *ngIf="uploader.queue.length==0">
+            <div *ngIf="files.length==0">
                 <h3>Drop Object List</h3>
 
-                <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader"
+                <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)"
+                 [uploader]="uploader"
                     class="well my-drop-zone">
                     Object List drop zone
                 </div>
             </div>
-            <div *ngIf="uploader.queue.length!=0">
+            <div *ngIf="files.length!=0">
                 <h3>Drop Program List</h3>
 
-                <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader"
+                <div ng2FileDrop [ngClass]="{'another-file-over-class': hasBaseDropZoneOver}" (fileOver)="fileOverAnother($event)" [uploader]="uploader"
                     class="well my-drop-zone">
                     Program List drop zone
                 </div>
             </div>
             <div align="center"> or</div>
             <br>
-            <div *ngIf="uploader.queue.length==0">
+            <div *ngIf="files.length==0">
 
                 Select Object List
                 <br>
-                <input type="file" ng2FileSelect [uploader]="uploader" (click)=file.click(); [disabled]="myform.invalid || !enable" />
+                <div >
+                    <input type="file" (change)="selectFile($event)"[disabled]="myform.invalid || !enable">
+                </div>
             </div>
-            <div *ngIf="uploader.queue.length!=0">
+            <div *ngIf="files.length!=0">
                 Select Program List
-                <input type="file" ng2FileSelect [uploader]="uploader" [disabled]="uploader.queue.length>=2" />
+                <input type="file" (change)="selectFile($event)"[disabled]="files.length>=2">
             </div>
         </div>
 
         <div class="col-md-9" style="margin-bottom: 40px">
 
             <h3>Upload queue</h3>
-            <p>Queue length: {{ uploader?.queue?.length }}</p>
+            <p>Queue length: {{ files?.length }}</p>
 
             <table class="table">
                 <thead>
                     <tr>
                         <th width="50%">Name</th>
                         <th>Size</th>
-                        <th>Progress</th>
-                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of uploader.queue">
-                        <td>
-                            <strong>{{ item?.file?.name }}</strong>
+                    <tr *ngFor="let item of files">
+                        <td *ngFor="let file of item">
+                            <strong>{{ file?.name }}</strong>
                         </td>
                         <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
                         <td *ngIf="uploader.isHTML5">
@@ -109,28 +110,14 @@
                                 <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
                             </div>
                         </td>
-                        <td class="text-center">
-                            <span *ngIf="item.isSuccess">
-                                <i class="glyphicon glyphicon-ok"></i>
-                            </span>
-                            <span *ngIf="item.isCancel">
-                                <i class="glyphicon glyphicon-ban-circle"></i>
-                            </span>
-                            <span *ngIf="item.isError">
-                                <i class="glyphicon glyphicon-remove"></i>
+                        <td *ngFor="let file of item">
+                            <span >
+                                <button type="button" class="btn btn-danger btn-xs" (click)="clean(item)" [disabled]="files.length==0">
+                                    <span class="glyphicon glyphicon-trash"></span> Remove 
+                                </button>
                             </span>
                         </td>
-                        <td nowrap>
-                            <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                                <span class="glyphicon glyphicon-upload"></span> Upload
-                            </button>
-                            <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
-                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                            </button>
-                            <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
-                                <span class="glyphicon glyphicon-trash"></span> Remove
-                            </button>
-                        </td>
+                       
                     </tr>
                 </tbody>
             </table>
@@ -139,18 +126,17 @@
                 <div>
                     Queue progress:
                     <div class="progress" style="">
-                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                        <div class="progress-bar" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+                        aria-valuemin="0" aria-valuemax="100"
+                        [ngStyle]="{width:progress.percentage+'%'}">
+                        {{progress.percentage}}%</div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                <button type="button" class="btn btn-success btn-s" (click)="upload()">
                     <span class="glyphicon glyphicon-upload"></span> Upload all
                 </button>
-                <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
-                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-                </button>
-                <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                    <span class="glyphicon glyphicon-trash"></span> Remove all
-                </button>
+               
+                
             </div>
 
         </div>
