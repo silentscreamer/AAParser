@@ -26,6 +26,8 @@ export class UploadTemplateComponent {
   enable: boolean = false;
   files: Array<FileList> = [];
   myform;
+  objectList:boolean=true;
+  programList:boolean;
   min: boolean;
   max: boolean;
   selectedFiles: FileList
@@ -102,6 +104,10 @@ export class UploadTemplateComponent {
   selectFile(event) {
     this.selectedFiles = event.target.files;
     this.files.push(this.selectedFiles);
+    if(this.files.length!=0){
+      this.objectList=false;
+      this.programList=true;    
+    }
   }
  
   upload() {
@@ -138,10 +144,22 @@ export class UploadTemplateComponent {
   clean(file){
 
     const index: number = this.files.indexOf(file);
+    if(this.files.length==1&&this.objectList){
+      this.programList=true;
+    }else{
+      this.objectList=true;
+    }
+    if(index==0){
+      this.objectList=true;
+      this.programList=false;
+    }else{
+      this.programList=true;
+      this.objectList=false;
+    }
     if(this.files.length==1){
       this.files=[];
     }else{
-      this.files= this.files.slice(index,1);
+      this.files= this.files.splice(index-1,1);
     }
    
   }
