@@ -5,7 +5,14 @@ import { DATACANVAS } from '../DATACANVAS'
 import { trigger, style, transition, animate, keyframes, state, query, stagger } from '@angular/animations';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import * as Chart from 'chart.js';
-
+import {
+  ReactiveFormsModule,
+  FormsModule,
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder
+} from '@angular/forms';
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
@@ -28,13 +35,34 @@ export class StatisticsComponent implements OnInit {
   lable;
   value;
   chartactive;
-
+  enable: boolean = false;
+  files: Array<FileList> = [];
+  myform;
+  objectList:boolean=true;
+  programList:boolean;
+  min: boolean;
+  max: boolean;
+  selectedFiles: FileList
+  currentFileUpload: File
+  progress: { percentage: number } = { percentage: 0 }
+  inputData;
+  require: boolean;
+  user: any = { AppIdd: "" }
+  appIdStatus:boolean=true;
   public pieChartLabels: string[];
   public pieChartData: number[];
   public pieChartType: string;
   public projects: any[];
 
-  constructor() { }
+  constructor() { 
+    this.myform = new FormGroup({
+      AppId: new FormControl('', [
+        Validators.required
+
+      ])
+
+    });
+  }
 
   ngOnInit() {
     this.projects = ['AWH', 'RMI'];
@@ -46,8 +74,11 @@ export class StatisticsComponent implements OnInit {
     for (let DATA of DATACANVAS) {
       if (selectedItem == DATA.label) {
         this.selected = DATA.data;
+        this.appIdStatus=true;
         this.showPie(this.selected);
         break;
+      }else{
+        this.appIdStatus=false;
       }
     }
   }
@@ -88,6 +119,31 @@ export class StatisticsComponent implements OnInit {
   
   enlarge(state) {
     state = (state === 'small' ? 'large' : 'small');
+
+  }
+  public validateId(user) {
+    this.max = false;
+    this.min = false;
+    this.require = false;
+    if (user) {
+      if (user.AppIdd.length == 6) {
+        this.enable = true;
+        console.log(user);
+        this.fillData(user.AppIdd);
+      } else {
+        if (user.AppIdd.length == 0) {
+          this.require = true;
+        }
+        if (user.AppIdd.length < 6 && user.AppIdd.length > 0) {
+          this.min = true;
+        }
+        if (user.AppIdd.length > 6) {
+          this.max = true;
+        }
+
+      }
+
+    }
 
   }
 
