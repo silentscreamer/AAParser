@@ -10,6 +10,7 @@ import {
   Validators,
   FormBuilder
 } from '@angular/forms';
+import { Input, Output, EventEmitter, HostListener } from '@angular/core';
 const URL = 'http://localhost:8080/processAppArea';
 
 
@@ -23,6 +24,13 @@ const URL = 'http://localhost:8080/processAppArea';
 export class UploadTemplateComponent {
   fileItem;
   @ViewChild('text') myId: ElementRef;
+  dragAreaClass: string = 'dragarea';
+  @Input() projectId: number = 0;
+  @Input() sectionId: number = 0;
+  @Input() fileExt: string = "XLS,XLSX";
+  @Output() uploadStatus = new EventEmitter();
+
+
   enable: boolean = false;
   files: Array<FileList> = [];
   myform;
@@ -46,32 +54,29 @@ export class UploadTemplateComponent {
     });
   
   }
-
-  public uploader: FileUploader = new FileUploader({
-    url: URL, allowedFileType: [],disableMultipart :false ,headers: <Headers[]>[
-      { name: 'Content-Type', value: 'multipart/form-data' }
-    ]  
-  });
-
-  public hasBaseDropZoneOver: boolean = false;
-  public hasAnotherDropZoneOver: boolean = false;
-
-
-  public fileOverBase(e: any): void {
-
-    this.hasBaseDropZoneOver = e;
-    if(this.uploader.queue.length<2){
-      this.uploader.setOptions({allowedFileType:["xls","xlsx"]});
-    }
-  }
-
-  public fileOverAnother(e: any): void {
-    this.hasAnotherDropZoneOver = e;
-    if(this.uploader.queue.length==2){
-      this.uploader.setOptions({allowedFileType:[]});
-    }
-    
-  }
+  @HostListener('dragover', ['$event']) onDragOver(event) {
+    this.dragAreaClass = "droparea";
+    event.preventDefault();
+}
+@HostListener('dragenter', ['$event']) onDragEnter(event) {
+  this.dragAreaClass = "droparea";
+  event.preventDefault();
+}
+@HostListener('dragend', ['$event']) onDragEnd(event) {
+  this.dragAreaClass = "dragarea";
+  event.preventDefault();
+}
+@HostListener('dragleave', ['$event']) onDragLeave(event) {
+  this.dragAreaClass = "dragarea";
+  event.preventDefault();
+}
+@HostListener('drop', ['$event']) onDrop(event) {   
+  this.dragAreaClass = "dragarea";           
+  event.preventDefault();
+  event.stopPropagation();
+  var files = event.dataTransfer.files;
+  this.files.push(files);
+}
 
   public validateId(user) {
     this.max = false;
@@ -80,7 +85,6 @@ export class UploadTemplateComponent {
     if (user) {
       if (user.AppIdd.length == 6) {
         this.enable = true;
-        this.uploader.setOptions({allowedFileType:["xls","xlsx"]});
         console.log(user);
       } else {
         if (user.AppIdd.length == 0) {
@@ -104,10 +108,6 @@ export class UploadTemplateComponent {
   selectFile(event) {
     this.selectedFiles = event.target.files;
     this.files.push(this.selectedFiles);
-    if(this.files.length!=0){
-      this.objectList=false;
-      this.programList=true;    
-    }
   }
  
   upload() {
@@ -144,23 +144,11 @@ export class UploadTemplateComponent {
   clean(file){
 
     const index: number = this.files.indexOf(file);
-    if(this.files.length==1&&this.objectList){
-      this.programList=true;
-    }else{
-      this.objectList=true;
-    }
-    if(index==0){
-      this.objectList=true;
-      this.programList=false;
-    }else{
-      this.programList=true;
-      this.objectList=false;
-    }
-    if(this.files.length==1){
-      this.files=[];
-    }else{
-      this.files= this.files.splice(index-1,1);
-    }
+    if (index !== -1) {
+      this.files.splice(index, 1);
+  } else{
+    this.files=[];
+  }  
    
   }
 } 
