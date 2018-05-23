@@ -133,6 +133,7 @@ export class StatisticsComponent implements OnInit {
       } else {
         if (user.AppIdd.length == 0) {
           this.require = true;
+          
         }
         if (user.AppIdd.length < 6 && user.AppIdd.length > 0) {
           this.min = true;

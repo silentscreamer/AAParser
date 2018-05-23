@@ -1,35 +1,6 @@
-<div align="left">
-    <app-nav-bar></app-nav-bar>
-</div>
-<style>
-    .my-drop-zone {
-        border: dotted 3px lightgray;
-    }
-
-    .nv-file-over {
-        border: dotted 3px red;
-    }
-
-    /* Default class applied to drop zones on over */
-
-    .another-file-over-class {
-        border: dotted 3px green;
-    }
-
-    html,
-    body {
-        height: 100%;
-    }
-</style>
-
-<div class="container">
-
-    <div class="navbar navbar-default">
-        <div class="navbar-header">
-            <a class="navbar-brand" href>File Upload</a>
-        </div>
-    </div> Projects: ApplicationId:
-    <div class="navbar navbar-default">
+ <div class="pageHead">
+ <span class="heading">App Area</span>
+  
         <form [formGroup]="myform">
             <select>
                 <option>AWH</option>
@@ -49,7 +20,7 @@
         <div *ngIf="max" class="alert ">
             <div>Id must be less than 7 characters.</div>
         </div>
-    </div>
+   
     <div class="row">
 
         <div class="col-md-3">
@@ -142,5 +113,5 @@
         </div>
 
     </div>
-
 </div>
+
