@@ -2037,12 +2037,13 @@ body {
 }
 
 .main-header {
-  min-height: 55px;
+  min-height: 60px;
   width: 100%;
-  background: #ffffff;
+  background: #69c8c6;
   position: fixed;
   z-index: 1001;
   border-bottom: 1px solid #eee;
+  align-content: center;
 }
 .main-header .logo-header {
   float: left;
@@ -2060,7 +2061,7 @@ body {
   display: inline-block;
 }
 .main-header .logo-header a.logo {
-  color: #575962;
+  color: blue;
 }
 .main-header .logo-header .navbar-toggler {
   padding-left: 0px;
@@ -2172,7 +2173,7 @@ body {
   font-weight: 700;
 }
 .sidebar .nav .nav-item.active a:before {
-  background: #1d7af3;
+  background: #69c8c6;
   opacity: 1 !important;
   position: absolute;
   z-index: 1;
@@ -2194,7 +2195,7 @@ body {
   top: 0;
 }
 .sidebar .nav .nav-item.active a i {
-  color: #4d7cfe;
+  color: #69c8c6;
 }
 .sidebar .nav .nav-item a {
   display: flex;
@@ -2212,7 +2213,7 @@ body {
   background: #fbfbfb;
 }
 .sidebar .nav .nav-item:hover a:before {
-  background: #1d7af3;
+  background: #69c8c6;
   opacity: 0.7;
   position: absolute;
   z-index: 1;
@@ -2259,6 +2260,7 @@ body {
 .footer .container-fluid {
   display: flex;
   align-items: center;
+  
 }
 
 .la, .la-stack {

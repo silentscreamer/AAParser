@@ -1,14 +1,33 @@
- <div class="pageHead">
- <span class="heading">App Area</span>
-  
+<div class="card1">
+    <div class="card-header">
+        <h4 class="card-title">Application Area</h4>
+        
+    </div>
+    <div class="card-body">
         <form [formGroup]="myform">
-            <select>
-                <option>AWH</option>
-                <option>RMI</option>
-            </select>
-            <ng-container>
-                <input type="text" formControlName="AppId" [(ngModel)]="user.AppIdd" id="text" (change)="validateId(user)" />
-            </ng-container>
+            <div class="row" >
+                    <div class="name">Project :</div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="selectWrapper">
+                            <select >
+                             
+                              <option>AWH</option>
+                              <option>RMI</option>
+                          </select>
+                          </div>
+            </div>
+            <br>
+            <br>
+           
+
+            <div class="row" >
+                    <div class="name">Application Area ID :</div> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <div class="inputid">
+                            <div class="form-group-lg" style="width:250px">
+                            <input class="form-control"type="text" formControlName="AppId" [(ngModel)]="user.AppIdd"
+                             id="text" (change)="validateId(user)" />
+                         </div> </div>
+            </div>
+                
         </form>
 
         <div *ngIf="require || myform.controls['AppId'].touched && myform.invalid" class="alert">
@@ -109,9 +128,9 @@
                
                 
             </div>
-
         </div>
-
+        </div>
     </div>
 </div>
+
 
